@@ -21,9 +21,9 @@ class RouteTrip:
         renfe_stops = renfe_stops[~renfe_stops.index.duplicated(keep='first')]
 
         # seleccionamos un subconjunto de columnas de timeseries_o donde están los distritos con paradas de renfe
-        subtimeseries_o = timeseries_o
+        subtimeseries_o = timeseries_o[renfe_stops.stop_district.unique()]
         # Se filtran las filas que se encuentren dentro del rango
-        subtimeseries_o = subtimeseries_o.between_time("6:00", "0:00")
+        # subtimeseries_o = subtimeseries_o.between_time("6:00", "0:00")
 
         # Td es el dataframe renfe_monthly_data.csv modificado en "ds" (Usuarios reales)
         Td = self.ptdata.renfe_monthly_data
@@ -41,8 +41,8 @@ class RouteTrip:
         metro_stops = self.routes.loc[self.ptdata.metro_users_bystop[self.ptdata.metro_users_bystop.stop_id.notna()].stop_id]
         metro_stops = metro_stops[~metro_stops.index.duplicated(keep='first')]
 
-        subtimeseries_o = timeseries_o
-        subtimeseries_o = subtimeseries_o.between_time("6:00", "0:00")
+        subtimeseries_o = timeseries_o[metro_stops.stop_district.unique()]
+        # subtimeseries_o = subtimeseries_o.between_time("6:00", "0:00")
 
         Td = self.ptdata.metro_daily_data
 
