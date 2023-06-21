@@ -1,12 +1,13 @@
 import os
 import pandas as pd
 import numpy as np
+import ray
 
 class TripsLoader:
     BASEPATH = "data/"
     ORIGIN_FILENAME = "timeseries_o.csv"
     DEST_FILENAME = "timeseries_d.csv"
-    TRAYEC_FILENAME = "Trayectos_Periodo_Confinamiento2.csv"
+    TRAYEC_FILENAME = BASEPATH + "Trayectos_Periodo_Confinamiento2.csv"
 
     def __init__(self, verbose=True):
         self.routesLoader = RoutesLoader() # Instanciamos objeto de la clase RoutesLoader()
@@ -24,10 +25,15 @@ class TripsLoader:
         self.timeseries_d = self.timeseries_d.astype(np.float32)
 
         #Llamamos como propiedad del objeto al dataframe Trayectos_Periodo_Confinamiento2
-        self.trayectos = pd.read_csv(self.BASEPATH + self.TRAYEC_FILENAME)
-        self.trayectos["ds"] = pd.to_datetime(self.trayectos["ds"])
-        self.trayectos = self.trayectos.set_index("ds")
-        # self.trayectos = self.trayectos.loc['2020-06-21':'2020-07-31 23:00:00']
+        self.trayectos = TripsLoader.load_trayectos.remote(TripsLoader.TRAYEC_FILENAME)
+
+    @staticmethod
+    @ray.remote
+    def load_trayectos(path):
+        datos = pd.read_csv(path)
+        datos["ds"] = pd.to_datetime(datos["ds"])
+        datos = datos.set_index("ds")
+        return datos
 
 
 class PassengersDataLoader:
@@ -56,6 +62,7 @@ class PassengersDataLoader:
         self.metro_daily_data = self.metro_daily_data[~self.metro_daily_data.index.duplicated(keep='last')].sort_index()
 
     @staticmethod
+    # @ray.remote
     def load_renfe_monthly_data(path,start_month = "20130101"):
         data = pd.read_csv(path, names = ["users"])
         period = pd.period_range(start_month, periods = len(data), freq = "M")
@@ -64,6 +71,7 @@ class PassengersDataLoader:
         return data
 
     @staticmethod
+    # @ray.remote
     def load_metro_daily_data(path):
         return pd.read_csv(path,
                            delimiter = ';',
@@ -73,10 +81,12 @@ class PassengersDataLoader:
                            index_col = 'ds')
 
     @staticmethod
+    # @ray.remote
     def load_renfe_users_bystop(path):
         return pd.read_csv(path)
 
     @staticmethod
+    # @ray.remote
     def load_metro_users_bystop(path):
         return  pd.read_csv(path)
 
