@@ -19,28 +19,33 @@ class Forecast:
     def Regressor0_5_FutureAccUp(self,ds,i,fila,valor):
         date = pd.to_datetime(ds)
         dfFinal0_5 = i.dfFinal0_5
-        fechafuture = dfFinal0_5.ds.loc[fila]
+        fechafuture = dfFinal0_5.ds.loc[fila[0]]
         fechafuture = datetime.strptime(fechafuture, "%Y-%m-%d %H:%M:%S")
+        print(fila)
+        print(date)
+        print(fechafuture)
         if (date.month == fechafuture.month) and (date.day == fechafuture.day) and (date.year == fechafuture.year) and (date.hour == fechafuture.hour):
-            valor = dfFinal0_5.loc[fila]
+            print("Entro")
+            valor = dfFinal0_5.loc[fila[0]]
             valor = valor['Accup']
-            fila += 1
+            fila[0] += 1
         else:
+            print("Cero")
             valor = 0
-            fila += 1
+            fila[0] += 1
         return (valor)
     def Regressor0_5_LunesBack(self,ds,i,fila,valor):
         date = pd.to_datetime(ds)
         dfFinal0_5 = i.dfFinal0_5
-        fechafuture = dfFinal0_5.ds.loc[fila]
+        fechafuture = dfFinal0_5.ds.loc[fila[0]]
         fechafuture = datetime.strptime(fechafuture, "%Y-%m-%d %H:%M:%S")
         if (date.month == fechafuture.month) and (date.day == fechafuture.day) and (date.year == fechafuture.year) and (date.hour == fechafuture.hour):
-            valor = dfFinal0_5.loc[fila]
+            valor = dfFinal0_5.loc[fila[0]]
             valor = valor['t-168Mod']
-            fila += 1
+            fila[0] += 1
         else:
             valor = 0
-            fila += 1
+            fila[0] += 1
         return (valor)
 
     #################################Lunes6_11#####################################
@@ -56,28 +61,28 @@ class Forecast:
     def Regressor6_11_FutureAccUp(self,ds,i,fila,valor):
         date = pd.to_datetime(ds)
         dfFinal6_11 = i.dfFinal6_11
-        fechafuture = dfFinal6_11.ds.loc[fila]
+        fechafuture = dfFinal6_11.ds.loc[fila[0]]
         fechafuture = datetime.strptime(fechafuture, "%Y-%m-%d %H:%M:%S")
         if (date.month == fechafuture.month) and (date.day == fechafuture.day) and (date.year == fechafuture.year) and (date.hour == fechafuture.hour):
-            valor = dfFinal6_11.loc[fila]
+            valor = dfFinal6_11.loc[fila[0]]
             valor = valor['Accup']
-            fila += 1
+            fila[0] += 1
         else:
             valor = 0
-            fila += 1
+            fila[0] += 1
         return (valor)
     def Regressor6_11_LunesBack(self,ds,i,fila,valor):
         date = pd.to_datetime(ds)
         dfFinal6_11 = i.dfFinal6_11
-        fechafuture = dfFinal6_11.ds.loc[fila]
+        fechafuture = dfFinal6_11.ds.loc[fila[0]]
         fechafuture = datetime.strptime(fechafuture, "%Y-%m-%d %H:%M:%S")
         if (date.month == fechafuture.month) and (date.day == fechafuture.day) and (date.year == fechafuture.year) and (date.hour == fechafuture.hour):
-            valor = dfFinal6_11.loc[fila]
+            valor = dfFinal6_11.loc[fila[0]]
             valor = valor['t-168Mod']
-            fila += 1
+            fila[0] += 1
         else:
             valor = 0
-            fila += 1
+            fila[0] += 1
         return (valor)
 
     ##################################Lunes12_17####################################
@@ -93,71 +98,71 @@ class Forecast:
     def Regressor12_17_FutureAccUp(self,ds,i,fila,valor):
         date = pd.to_datetime(ds)
         dfFinal12_17 = i.dfFinal12_17
-        fechafuture = dfFinal12_17.ds.loc[fila]
+        fechafuture = dfFinal12_17.ds.loc[fila[0]]
         fechafuture = datetime.strptime(fechafuture, "%Y-%m-%d %H:%M:%S")
         if (date.month == fechafuture.month) and (date.day == fechafuture.day) and (date.year == fechafuture.year) and (date.hour == fechafuture.hour):
-            valor = dfFinal12_17.loc[fila]
+            valor = dfFinal12_17.loc[fila[0]]
             valor = valor['Accup']
-            fila += 1
+            fila[0] += 1
         else:
             valor = 0
-            fila += 1
+            fila[0] += 1
         return (valor)
     def Regressor12_17_LunesBack(self,ds,i,fila,valor):
         date = pd.to_datetime(ds)
         dfFinal12_17 = i.dfFinal12_17
-        fechafuture = dfFinal12_17.ds.loc[fila]
+        fechafuture = dfFinal12_17.ds.loc[fila[0]]
         fechafuture = datetime.strptime(fechafuture, "%Y-%m-%d %H:%M:%S")
         if (date.month == fechafuture.month) and (date.day == fechafuture.day) and (date.year == fechafuture.year) and (date.hour == fechafuture.hour):
-            valor = dfFinal12_17.loc[fila]
+            valor = dfFinal12_17.loc[fila[0]]
             valor = valor['t-168Mod']
-            fila += 1
+            fila[0] += 1
         else:
             valor = 0
-            fila += 1
+            fila[0] += 1
         return (valor)
 
     ####################################Lunes18_23##################################
     def Regressor18_23_FutureAccUp(self,ds,i,fila,valor):
         date = pd.to_datetime(ds)
         dfFinal18_23 = i.dfFinal18_23
-        fechafuture = dfFinal18_23.ds.loc[fila]
+        fechafuture = dfFinal18_23.ds.loc[fila[0]]
         fechafuture = datetime.strptime(fechafuture, "%Y-%m-%d %H:%M:%S")
         if (date.month == fechafuture.month) and (date.day == fechafuture.day) and (date.year == fechafuture.year) and (date.hour == fechafuture.hour):
-            valor = dfFinal18_23.loc[fila]
+            valor = dfFinal18_23.loc[fila[0]]
             valor = valor['Accup']
-            fila += 1
+            fila[0] += 1
         else:
             valor = 0
-            fila += 1
+            fila[0] += 1
         return (valor)
     def Regressor18_23_LunesBack(self,ds,i,fila,valor):
         date = pd.to_datetime(ds)
         dfFinal18_23 = i.dfFinal18_23
-        fechafuture = dfFinal18_23.ds.loc[fila]
+        fechafuture = dfFinal18_23.ds.loc[fila[0]]
         fechafuture = datetime.strptime(fechafuture, "%Y-%m-%d %H:%M:%S")
         if (date.month == fechafuture.month) and (date.day == fechafuture.day) and (date.year == fechafuture.year) and (date.hour == fechafuture.hour):
-            valor = dfFinal18_23.loc[fila]
+            valor = dfFinal18_23.loc[fila[0]]
             valor = valor['t-168Mod']
-            fila += 1
+            fila[0] += 1
         else:
             valor = 0
-            fila += 1
+            fila[0] += 1
         return (valor)
 
     ####################################################################################
     def Add_y(self,ds,i,fila,valor):
         date = pd.to_datetime(ds)
         dfFinal18_23 = i.dfFinal18_23
-        fechafuture = dfFinal18_23.ds.loc[fila]
+        fechafuture = dfFinal18_23.ds.loc[fila[0]]
         fechafuture = datetime.strptime(fechafuture, "%Y-%m-%d %H:%M:%S")
         if (date.month == fechafuture.month) and (date.day == fechafuture.day) and (date.year == fechafuture.year) and (date.hour == fechafuture.hour):
-            valor = dfFinal18_23.loc[fila]
+            valor = dfFinal18_23.loc[fila[0]]
             valor = valor['y']
-            fila += 1
+            fila[0] += 1
         else:
             valor = 0
-            fila += 1
+            fila[0] += 1
         return (valor)
 
     ########################################################3
@@ -201,18 +206,21 @@ class Forecast:
 
     def start_model(self,future,end_date,injector,start,start2,start3,start4,fila,m):
         if end_date.hour in [0, 1, 2, 3, 4, 5]:
-            fila=0
+            fila = 0
             valor=0
             # future['Lunes0_5'] = future['ds'].apply(self.est_Lunes0_5)
             future['Lunes0_5'] = future['ds'].apply(lambda ds: self.est_Lunes0_5(ds, fila, valor))
-            fila = 0
+            fila = [0]
             valor=0
             # future['Accup'] = future['ds'].apply(self.Regressor0_5_FutureAccUp,i=injector)
             future['Accup'] = future['ds'].apply(lambda ds: self.Regressor0_5_FutureAccUp(ds,injector,fila,valor))
-            fila = 0
+
+            fila = [0]
             valor=0
             # future['t-168Mod'] = future['ds'].apply(self.Regressor0_5_LunesBack,i=injector)
             future['t-168Mod'] = future['ds'].apply(lambda ds: self.Regressor0_5_LunesBack(ds,injector,fila,valor))
+
+            print("Lunes0_5",future)
 
             if start == False:
                 # Load model
@@ -221,7 +229,7 @@ class Forecast:
                 start = True
             else:
                 df = future.iloc[:-1].copy()
-                fila = 0
+                fila = [0]
                 valor = 0
                 # df['y'] = df['ds'].apply(self.Add_y,i=injector)
                 df['y'] = df['ds'].apply(lambda ds: self.Add_y(ds, injector, fila, valor))
@@ -239,11 +247,11 @@ class Forecast:
             valor = 0
             # future['Lunes6_11'] = future['ds'].apply(self.est_Lunes6_11)
             future['Lunes6_11'] = future['ds'].apply(lambda ds: self.est_Lunes6_11(ds, fila, valor))
-            fila = 0
+            fila = [0]
             valor = 0
             # future['Accup'] = future['ds'].apply(self.Regressor6_11_FutureAccUp,i=injector)
             future['Accup'] = future['ds'].apply(lambda ds: self.Regressor6_11_FutureAccUp(ds,injector,fila,valor))
-            fila = 0
+            fila = [0]
             valor = 0
             # future['t-168Mod'] = future['ds'].apply(self.Regressor6_11_LunesBack,i=injector)
             future['t-168Mod'] = future['ds'].apply(lambda ds: self.Regressor6_11_LunesBack(ds,injector,fila,valor))
@@ -255,7 +263,7 @@ class Forecast:
                 start2 = True
             else:
                 df = future.iloc[:-1].copy()
-                fila = 0
+                fila = [0]
                 valor = 0
                 # df['y'] = df['ds'].apply(self.Add_y,i=injector)
                 df['y'] = df['ds'].apply(lambda ds: self.Add_y(ds, injector, fila, valor))
@@ -274,11 +282,11 @@ class Forecast:
             valor = 0
             # future['Lunes12_17'] = future['ds'].apply(self.est_Lunes12_17)
             future['Lunes12_17'] = future['ds'].apply(lambda ds: self.est_Lunes12_17(ds, fila, valor))
-            fila = 0
+            fila = [0]
             valor = 0
             # future['Accup'] = future['ds'].apply(self.Regressor12_17_FutureAccUp,i=injector)
             future['Accup'] = future['ds'].apply(lambda ds: self.Regressor12_17_FutureAccUp(ds,injector,fila,valor))
-            fila = 0
+            fila = [0]
             valor = 0
             # future['t-168Mod'] = future['ds'].apply(self.Regressor12_17_LunesBack,i=injector)
             future['t-168Mod'] = future['ds'].apply(lambda ds: self.Regressor12_17_LunesBack(ds,injector,fila,valor))
@@ -290,7 +298,7 @@ class Forecast:
                 start3 = True
             else:
                 df = future.iloc[:-1].copy()
-                fila = 0
+                fila = [0]
                 valor = 0
                 # df['y'] = df['ds'].apply(self.Add_y,i=injector)
                 df['y'] = df['ds'].apply(lambda ds: self.Add_y(ds, injector, fila, valor))
@@ -302,11 +310,11 @@ class Forecast:
                 m = m2.fit(df, init=warm_start_params(m))
 
         elif end_date.hour in [18, 19, 20, 21, 22, 23]:
-            fila = 0
+            fila = [0]
             valor = 0
             # future['Accup'] = future['ds'].apply(self.Regressor18_23_FutureAccUp,i=injector)
             future['Accup'] = future['ds'].apply(lambda ds: self.Regressor18_23_FutureAccUp(ds,injector,fila,valor))
-            fila = 0
+            fila = [0]
             valor = 0
             # future['t-168Mod'] = future['ds'].apply(self.Regressor18_23_LunesBack,i=injector)
             future['t-168Mod'] = future['ds'].apply(lambda ds: self.Regressor18_23_LunesBack(ds,injector,fila,valor))
@@ -318,7 +326,7 @@ class Forecast:
                 start4 = True
             else:
                 df = future.iloc[:-1].copy()
-                fila = 0
+                fila = [0]
                 valor = 0
                 # df['y'] = df['ds'].apply(self.Add_y,i=injector)
                 df['y'] = df['ds'].apply(lambda ds: self.Add_y(ds, injector, fila, valor))

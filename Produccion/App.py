@@ -235,6 +235,7 @@ def cercanias(date,value):
     start2 = False
     start3 = False
     start4 = False
+    m = None
     lista_Lunes = []
 
     # Crear dataframe "future"
@@ -272,8 +273,8 @@ def cercanias(date,value):
     else:
         subsetNn = subsetN.copy()
 
-    # StopForecast = Forecast()
-    future, m = start_model(future)
+    StopForecast = Forecast()
+    future, m = StopForecast.start_model(future,end_date,injector,start,start2,start3,start4,fila,m)
     forecast = m.predict(future)
     prediction = forecast.iloc[[-1]].copy()
     ds = prediction.loc[:, 'ds']
@@ -282,9 +283,9 @@ def cercanias(date,value):
     prediction = prediction.set_index('ds')
     # print(prediction)
 
-    Chamartin_up_Renfe = Input_Estimate_Cercanias(prediction,subsetNn,timeseries_o)
+    Chamartin_up_Renfe = StopForecast.Input_Estimate_Cercanias(prediction,subsetNn,timeseries_o,lista_Lunes)
 
-    return [fecha],[end_date]#Chamartin_up_Renfe
+    return [Chamartin_up_Renfe],[end_date]#Chamartin_up_Renfe
 
 
 def metro(end_date):
