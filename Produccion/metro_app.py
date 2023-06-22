@@ -94,20 +94,7 @@ CONTENT_STYLE = {
 }
 
 navbar = dbc.NavbarSimple(
-    # children=[
-    #     dbc.NavItem(dbc.NavLink("Cercanias", id = 'cercanias_button', n_clicks = 0)),
-    #     dbc.NavItem(dbc.NavLink("Metro", id = 'metro_button',n_clicks= 0)),
-    #     # dbc.DropdownMenu(
-    #     #     children = [
-    #     #         dbc.DropdownMenuItem('Información',id = 'moreinfo_button',n_clicks = 0)
-    #     #     ],
-    #     #     nav = True,
-    #     #     in_navbar=True,
-    #     #     label = 'Más',
-    #     #     right = True
-    #     # )
-    # ],
-    brand="Servicio de Transporte Público Cercanias",
+    brand="Servicio de Transporte Público Metro",
     brand_href="#",
     color="primary",
     dark=True,
@@ -129,15 +116,21 @@ sidebar = html.Div(id = 'mainsidebar',children =
             dbc.Badge("Seleccione línea", color="primary", className="mr-2"),
             dcc.Dropdown(id='lines_dropdown',
                         options=[
-                            {'label': 'C1', 'value': 'C1', 'disabled': True},
-                            {'label': 'C2', 'value': 'C2', 'disabled': True},
-                            {'label': 'C3', 'value': 'C3', 'disabled': True},
-                            {'label': 'C4', 'value': 'C4'},
-                            {'label': 'C5', 'value': 'C5', 'disabled': True},
-                            {'label': 'C8', 'value': 'C8', 'disabled': True},
-                            {'label': 'C10', 'value': 'C10', 'disabled': True}
+                            {'label': 'Línea 1', 'value': 'Línea 1'},
+                            {'label': 'Línea 2', 'value': 'Línea 2', 'disabled': True},
+                            {'label': 'Línea 3', 'value': 'Línea 3', 'disabled': True},
+                            {'label': 'Línea 4', 'value': 'Línea 4', 'disabled': True},
+                            {'label': 'Línea 5', 'value': 'Línea 5', 'disabled': True},
+                            {'label': 'Línea 6', 'value': 'Línea 6', 'disabled': True},
+                            {'label': 'Línea 7', 'value': 'Línea 7', 'disabled': True},
+                            {'label': 'Línea 8', 'value': 'Línea 8', 'disabled': True},
+                            {'label': 'Línea 9', 'value': 'Línea 9', 'disabled': True},
+                            {'label': 'Línea 10', 'value': 'Línea 10', 'disabled': True},
+                            {'label': 'Línea 11', 'value': 'Línea 11', 'disabled': True},
+                            {'label': 'Línea 12', 'value': 'Línea 12', 'disabled': True},
+                            {'label': 'Línea R', 'value': 'Línea R', 'disabled': True}
                         ],
-                        value='C4',
+                        value='Línea 1',
                         style={"color": "darkblue"}
             )
         ], className='lead',    #style={'margin-bottom': '1rem'} #style={'padding-bottom':'3rem'}
@@ -147,27 +140,45 @@ sidebar = html.Div(id = 'mainsidebar',children =
         html.Br(),
 
         html.Div(id = 'dropdown_container',children=[
-            dbc.Badge("Seleccione parada", color="primary", className="mr-2"),
+            dbc.Badge("Seleccione Estación", color="primary", className="mr-2"),
             dcc.Dropdown(id='stops_dropdown',
                         options=[
-                            {'label': 'Alcobendas-ss', 'value': 'Alcobendas-ss', 'disabled': True},
-                            {'label': 'Valdelasfuentes', 'value': 'Valdelasfuentes', 'disabled': True},
-                            {'label': 'Univ. P. Comillas', 'value': 'Univ. P. Comillas', 'disabled': True},
-                            {'label': 'Cantoblanco Univ.', 'value': 'Cantoblanco Univ.', 'disabled': True},
-                            {'label': 'Fuencarral', 'value': 'Fuencarral', 'disabled': True},
-                            {'label': 'Chamartín', 'value': 'Chamartín'},
-                            {'label': 'N. Ministerios', 'value': 'N. Ministerios', 'disabled': True},
-                            {'label': 'Sol', 'value': 'Sol', 'disabled': True},
-                            {'label': 'Atocha', 'value': 'Atocha', 'disabled': True},
-                            {'label': 'Villaverde Bajo', 'value': 'Villaverde Bajo', 'disabled': True},
-                            {'label': 'Villaverde Alto', 'value': 'Villaverde Alto', 'disabled': True},
-                            {'label': 'Las Margaritas Univ.', 'value': 'Las Margaritas Univ.', 'disabled': True},
-                            {'label': 'Getafe Centro', 'value': 'Getafe Centro', 'disabled': True},
-                            {'label': 'Getafe Sector 3', 'value': 'Getafe Sector 3', 'disabled': True},
-                            {'label': 'Parla', 'value': 'Parla', 'disabled': True}
+                            {'label': 'Pinar de Chamartín', 'value': '1', 'disabled': True},
+                            {'label': 'Bambú', 'value': '2', 'disabled': True},
+                            {'label': 'Chamartín', 'value': '3'},
+                            {'label': 'Plaza de Castilla', 'value': '4', 'disabled': True},
+                            {'label': 'Valdeacederas', 'value': '5', 'disabled': True},
+                            {'label': 'Tetuán', 'value': '6', 'disabled': True},
+                            {'label': 'Estrecho', 'value': '7', 'disabled': True},
+                            {'label': 'Alvarado', 'value': '8', 'disabled': True},
+                            {'label': 'Cuatro Caminos', 'value': '9', 'disabled': True},
+                            {'label': 'Ríos Rosas', 'value': '10', 'disabled': True},
+                            {'label': 'Iglesia', 'value': '11', 'disabled': True},
+                            {'label': 'Bilbao', 'value': '12', 'disabled': True},
+                            {'label': 'Tribunal', 'value': '13', 'disabled': True},
+                            {'label': 'Gran Vía', 'value': '14', 'disabled': True},
+                            {'label': 'Sol', 'value': '15', 'disabled': True},
+                            {'label': 'Tirso de Molina', 'value': '16', 'disabled': True},
+                            {'label': 'Antón Martín', 'value': '17', 'disabled': True},
+                            {'label': 'Estación del Arte', 'value': '18', 'disabled': True},
+                            {'label': 'Atocha', 'value': '19', 'disabled': True},
+                            {'label': 'Menéndez Pelayo', 'value': '20', 'disabled': True},
+                            {'label': 'Pacífico', 'value': '21', 'disabled': True},
+                            {'label': 'Puente de Vallecas', 'value': '22', 'disabled': True},
+                            {'label': 'Nueva Numancia', 'value': '23', 'disabled': True},
+                            {'label': 'Portazgo', 'value': '24', 'disabled': True},
+                            {'label': 'Buenos Aires', 'value': '25', 'disabled': True},
+                            {'label': 'Alto del Arenal', 'value': '26', 'disabled': True},
+                            {'label': 'Miguel Hernández', 'value': '27', 'disabled': True},
+                            {'label': 'Sierra de Guadalupe', 'value': '28', 'disabled': True},
+                            {'label': 'Villa de Vallecas', 'value': '29', 'disabled': True},
+                            {'label': 'Congosto', 'value': '30', 'disabled': True},
+                            {'label': 'La Gavia', 'value': '31', 'disabled': True},
+                            {'label': 'Las Suertes', 'value': '32', 'disabled': True},
+                            {'label': 'Valdecarros', 'value': '33', 'disabled': True}
 
                         ],
-                        value='Chamartín',
+                        value='3',
                         style={"color": "darkblue"}
             )
         ], className='lead', style={'margin-bottom': '1rem'} #style={'padding-bottom':'3rem'}
@@ -242,13 +253,18 @@ app.layout = html.Div(
 )
 
 
-def cercanias(date,value):
+def metro(date,value):
     fecha_str = date
     hora = value
     fecha = datetime.strptime(fecha_str, "%Y-%m-%d")
     end_date = datetime(fecha.year, fecha.month, fecha.day, hora, 0, 0)
     target_date = datetime(2020, 7, 19, 23, 0, 0)
+    texto = "Estimación de las Entradas en la Estación de Charmartín"
 
+    global cont
+    global subsetN
+    global injector
+    global timeseries_o
     fila=0
     start = False
     start2 = False
@@ -272,7 +288,7 @@ def cercanias(date,value):
         pass
 
     # Condición de prueba
-    if __name__ == '__main__':
+    if cont == 0:
         tripsloader = TripsLoader(verbose = True)
         timeseries_o = tripsloader.timeseries_o
         timeseries_o = timeseries_o.loc['2020-07-01':'2020-07-31 23:00:00']
@@ -302,7 +318,7 @@ def cercanias(date,value):
     prediction = prediction.set_index('ds')
     # print(prediction)
 
-    Chamartin_up_Renfe = StopForecast.Input_Estimate_Cercanias(prediction,subsetNn,timeseries_o,lista_Lunes)
+    Chamartin_up_Renfe = StopForecast.Input_Estimate_Metro(prediction,subsetNn,timeseries_o,lista_Lunes)
     # json_data = Chamartin_up_Renfe.to_json(orient='records')
 
 
@@ -346,16 +362,11 @@ def cercanias(date,value):
     xaxis=dict(
         tickangle=25  # Desactiva la inclinación de los títulos del eje x
     )
-    # title={
-    #     'text': 'Predicciones por hora de los días lunes',
-    #     'x': 0.5,
-    #     'xanchor': 'center'
-    # }
     )
-    texto = "Estimación de las Entradas en la Parada de Charmartín"
+    cont += 1
 
     return [texto],fig#{'data': [trace], 'layout': layout}
 
-
+cont = 0
 if __name__ == '__main__':
     app.run_server(debug=True)
