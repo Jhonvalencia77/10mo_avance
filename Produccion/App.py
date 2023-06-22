@@ -9,7 +9,7 @@ from prophet.serialize import model_to_json, model_from_json
 import pickle
 from datetime import datetime, timedelta
 
-from processor2 import * #Importamos todas las clases del archivo processor
+from processor import * #Importamos todas las clases del archivo processor
 from data_injector import *
 from forecast_system import *
 
@@ -33,7 +33,9 @@ external_stylesheets = [
         "rel": "stylesheet",
 
     },
-    dbc.themes.BOOTSTRAP
+    # dbc.themes.BOOTSTRAP
+    # dbc.themes.DARKLY
+    dbc.themes.SUPERHERO
 ]
 
 app = Dash(__name__,external_stylesheets=external_stylesheets)
@@ -54,10 +56,22 @@ ray.init()
 # ])
 
 def main_layout():
-    return html.Div(children=[html.Div(id='output_container', children=[]),
-                                html.Div(id='output_container2', children=[])
+    return html.Div(children=[
+
+                            html.Div(id='Titulo Graph',children=[
+                            html.H3("Sistema de Predicción por Hora de los Días Lunes",className="display-4",
+                            style={"font-size": "30px", "text-align": "center", "margin-top": "1px"})
+                            ]),
+
+                            html.Div(id='output_container', children=[],
+                                        style={"font-size": "20px",'margin-top': '2px'},className="display-4"),#className='text-primary'),
+                            html.Div(
+                                dcc.Graph(id='predictions-graph'),
+                                style={'margin-top': '20px', 'margin-left': '80px'}
+                            )
                             ],
-                            className="wrapper",
+                            # className="wrapper",
+                            className="wrapper text-center"
                 )
 
 SIDEBAR_STYLE = {
@@ -67,7 +81,8 @@ SIDEBAR_STYLE = {
     "bottom": 0,
     "width": "23rem",
     "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
+    # "background-color": "#f8f9fa",
+    # "background-color": "##343a40",
     'overflow':'scroll'
 }
 
@@ -79,20 +94,20 @@ CONTENT_STYLE = {
 }
 
 navbar = dbc.NavbarSimple(
-    children=[
-        dbc.NavItem(dbc.NavLink("Cercanias", id = 'cercanias_button', n_clicks = 0)),
-        dbc.NavItem(dbc.NavLink("Metro", id = 'metro_button',n_clicks= 0)),
-        # dbc.DropdownMenu(
-        #     children = [
-        #         dbc.DropdownMenuItem('Información',id = 'moreinfo_button',n_clicks = 0)
-        #     ],
-        #     nav = True,
-        #     in_navbar=True,
-        #     label = 'Más',
-        #     right = True
-        # )
-    ],
-    brand="Servicios",
+    # children=[
+    #     dbc.NavItem(dbc.NavLink("Cercanias", id = 'cercanias_button', n_clicks = 0)),
+    #     dbc.NavItem(dbc.NavLink("Metro", id = 'metro_button',n_clicks= 0)),
+    #     # dbc.DropdownMenu(
+    #     #     children = [
+    #     #         dbc.DropdownMenuItem('Información',id = 'moreinfo_button',n_clicks = 0)
+    #     #     ],
+    #     #     nav = True,
+    #     #     in_navbar=True,
+    #     #     label = 'Más',
+    #     #     right = True
+    #     # )
+    # ],
+    brand="Servicio de Transporte Público Cercanias",
     brand_href="#",
     color="primary",
     dark=True,
@@ -122,7 +137,8 @@ sidebar = html.Div(id = 'mainsidebar',children =
                             {'label': 'C8', 'value': 'C8', 'disabled': True},
                             {'label': 'C10', 'value': 'C10', 'disabled': True}
                         ],
-                        value='C4'
+                        value='C4',
+                        style={"color": "darkblue"}
             )
         ], className='lead',    #style={'margin-bottom': '1rem'} #style={'padding-bottom':'3rem'}
         ),
@@ -151,7 +167,8 @@ sidebar = html.Div(id = 'mainsidebar',children =
                             {'label': 'Parla', 'value': 'Parla', 'disabled': True}
 
                         ],
-                        value='Chamartín'
+                        value='Chamartín',
+                        style={"color": "darkblue"}
             )
         ], className='lead', style={'margin-bottom': '1rem'} #style={'padding-bottom':'3rem'}
         ),
@@ -182,7 +199,8 @@ sidebar = html.Div(id = 'mainsidebar',children =
                 id='hour-dropdown',
                 options=[{'label': str(i).zfill(2), 'value': i} for i in range(24)],
                 placeholder="Hora",
-                value=23
+                value=23,
+                style={"color": "darkblue"}
 
             )
 
@@ -217,8 +235,8 @@ app.layout = html.Div(
 #      dash.dependencies.Input('hour-dropdown', 'value')])
 @app.callback(
     [Output(component_id='output_container', component_property='children'),
-    Output(component_id='output_container2', component_property='children')],
-     #Output(component_id='my_bee_map', component_property='figure')], # Mi gráfica
+     Output('predictions-graph','figure')],# Mi gráfica
+
     [Input(component_id='date-picker', component_property='date'),
     Input(component_id='hour-dropdown', component_property='value')]
 )
@@ -229,6 +247,7 @@ def cercanias(date,value):
     hora = value
     fecha = datetime.strptime(fecha_str, "%Y-%m-%d")
     end_date = datetime(fecha.year, fecha.month, fecha.day, hora, 0, 0)
+    target_date = datetime(2020, 7, 19, 23, 0, 0)
 
     fila=0
     start = False
@@ -284,64 +303,59 @@ def cercanias(date,value):
     # print(prediction)
 
     Chamartin_up_Renfe = StopForecast.Input_Estimate_Cercanias(prediction,subsetNn,timeseries_o,lista_Lunes)
+    # json_data = Chamartin_up_Renfe.to_json(orient='records')
 
-    return [Chamartin_up_Renfe],[end_date]#Chamartin_up_Renfe
 
-
-def metro(end_date):
-    fila=0
-    start = False
-    start2 = False
-    start3 = False
-    start4 = False
-    lista_Lunes = []
-
-    # Crear dataframe "future"
-    future = pd.DataFrame({'ds': pd.date_range(start=datetime(2020, 6, 21), end=end_date, freq='H')})
-
-    if start == True and end_date.hour == 0:
-        start = False
-    elif start2 == True and end_date.hour == 6:
-        start2 = False
-    elif start3 == True and end_date.hour == 12:
-        start3 = False
-    elif start4 == True and end_date.hour == 18:
-        start4 = False
+    # Chamartin_up_Renfe['index_str'] = Chamartin_up_Renfe.index.strftime('%Y-%m-%d %H:%M:%S')
+    if end_date == target_date:
+        Chamartin_up_Renfe = Chamartin_up_Renfe.drop(Chamartin_up_Renfe.index[0])
     else:
         pass
+    # Chamartin_up_Renfe = Chamartin_up_Renfe.reset_index()
+    #
+    # Chamartin_up_Renfe['rounded_y'] = Chamartin_up_Renfe['y'].round(1).astype(float)
 
-    if __name__ == '__main__':
-        tripsloader = TripsLoader(verbose = True)
-        timeseries_o = tripsloader.timeseries_o
-        timeseries_o = timeseries_o.loc['2020-07-01':'2020-07-31 23:00:00']
 
-        Trayectos = tripsloader.trayectos
-        trayectos = ray.get(Trayectos)
-        trayectos = trayectos.loc['2020-06-21':'2020-07-31 23:00:00']
-        columnas_o = [columna for columna in trayectos.columns if columna.startswith('2807905')]
-        subsetN = trayectos[columnas_o]
-        subsetNn = subsetN.copy()
+    def Copy_y(Fecha):
+        newFecha = "'" + str(Fecha) + "'"
+        return (newFecha)
 
-        injector = Injector()
-        dfFinal0_5 = injector.dfFinal0_5
-        dfFinal6_11 = injector.dfFinal6_11
-        dfFinal12_17 = injector.dfFinal12_17
-        dfFinal18_23 = injector.dfFinal18_23
-    else:
-        subsetNn = subsetN.copy()
+    Chamartin_prueba = Chamartin_up_Renfe.copy()
+    Chamartin_prueba['Fechas'] = Chamartin_prueba.index.strftime('%Y-%m-%d %H:%M:%S')
+    Chamartin_prueba = Chamartin_prueba.reset_index()
 
-    future, m = start_model(future)
-    forecast = m.predict(future)
-    prediction = forecast.iloc[[-1]].copy()
-    ds = prediction.loc[:, 'ds']
-    yhat = prediction.loc[:, 'yhat']
-    prediction = pd.DataFrame({'ds': ds, 'yhat': yhat})
-    prediction = prediction.set_index('ds')
-    # print(prediction)
+    Chamartin_prueba['newDate'] = Chamartin_prueba['Fechas'].apply(Copy_y)
 
-    Chamartin_up_Metro = Input_Estimate_Metro(prediction,subsetNn,timeseries_o)
+    nuevo_df = pd.DataFrame(Chamartin_prueba['newDate'].values, columns=['Fechas'])
+    nuevo_df['y'] = Chamartin_prueba['y']
+    # nuevo_df['round_y'] = Chamartin_prueba['rounded_y']
+    json_data = nuevo_df.to_json(orient='records')
 
-    return Chamartin_up_Metro
+    # fig = px.bar(Chamartin_up_Renfe, x='index', y='y', text='rounded_y',
+    #              title='Predicciones por hora de los días lunes')
+    fig = px.bar(nuevo_df, x='Fechas', y='y', text='y')
+
+    fig.update_traces(textfont_size=12, textangle=0, texttemplate='%{text:.1f}', hovertemplate='%{text:.1f}', textposition='outside')
+    fig.update_layout(
+    xaxis_title='Fecha y Hora',  # Título del eje x
+    yaxis_title='Número de entradas',  # Título del eje y
+    uniformtext_minsize=12,
+    # uniformtext_mode='hide',
+    width=1200,
+    height=600,
+    xaxis=dict(
+        tickangle=25  # Desactiva la inclinación de los títulos del eje x
+    )
+    # title={
+    #     'text': 'Predicciones por hora de los días lunes',
+    #     'x': 0.5,
+    #     'xanchor': 'center'
+    # }
+    )
+    texto = "Estimación de las Entradas en la Parada de Charmartín"
+
+    return [texto],fig#{'data': [trace], 'layout': layout}
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)

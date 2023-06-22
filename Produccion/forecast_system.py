@@ -3,7 +3,7 @@ import numpy as np
 from datetime import datetime, timedelta
 from fbprophet import Prophet
 from prophet.serialize import model_to_json, model_from_json
-from processor2 import *
+from processor import *
 
 class Forecast:
 
